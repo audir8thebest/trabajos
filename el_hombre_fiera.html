@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Hombre Fiera — Memorias de Nicolás Jiménez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    :root {
+      --cream:       #F7F1E6;
+      --parchment:   #EDE3CC;
+      --tan:         #C9A97A;
+      --brown-mid:   #8B5C2A;
+      --brown-dark:  #5C3310;
+      --brown-ink:   #2E1A0E;
+      --sepia-line:  #C4A882;
+      --shadow:      rgba(46, 26, 14, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--brown-ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ──────────── TEXTURA DE FONDO ──────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ──────────── NAV ──────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--brown-dark);
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 0.85rem 2rem;
+      box-shadow: 0 2px 20px var(--shadow);
+    }
+
+    nav a {
+      color: var(--parchment);
+      text-decoration: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    nav a:hover { opacity: 1; color: var(--tan); }
+
+    /* ──────────── HERO ──────────── */
+    header.hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 62vh;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      overflow: hidden;
+      background: linear-gradient(170deg, #3a1f0a 0%, #5c3310 45%, #7a4820 100%);
+    }
+
+    header.hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, rgba(201,169,122,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-ornament {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--tan);
+      font-size: 1rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 1.4rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    header.hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--parchment);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      animation: fadeUp 1s 0.15s ease both;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .hero-subtitle {
+      margin-top: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--tan);
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .hero-divider {
+      margin: 2.2rem auto;
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--tan), transparent);
+      animation: fadeUp 1s 0.45s ease both;
+    }
+
+    .hero-authors {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--parchment);
+      opacity: 0.65;
+      line-height: 2;
+      animation: fadeUp 1s 0.55s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ──────────── SECTIONS ──────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    section.wide {
+      max-width: 1260px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      border-bottom: 1px solid var(--sepia-line);
+      padding-bottom: 0.3rem;
+      margin-bottom: 1.4rem;
+    }
+
+    h2.section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--brown-dark);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .ornament-line {
+      width: 60px;
+      height: 2px;
+      background: var(--tan);
+      margin: 1.2rem 0 2rem;
+    }
+
+    .sepia-divider {
+      border: none;
+      border-top: 1px solid var(--sepia-line);
+      margin: 0;
+      opacity: 0.6;
+    }
+
+    /* ──────────── SINOPSIS ──────────── */
+    #sinopsis {
+      background: var(--parchment);
+      border-radius: 2px;
+      padding: 5rem 3rem;
+      max-width: 100%;
+      box-shadow: inset 0 0 80px rgba(139,92,42,0.06);
+    }
+
+    #sinopsis .inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .sinopsis-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .sinopsis-left h2 { margin-bottom: 1rem; }
+
+    blockquote.sinopsis-text {
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: var(--brown-ink);
+      border-left: 3px solid var(--tan);
+      padding-left: 1.8rem;
+      font-style: italic;
+    }
+
+    /* ──────────── PERFIL ──────────── */
+    #perfil { background: var(--cream); }
+
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .perfil-text p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      color: var(--brown-ink);
+    }
+
+    .perfil-photo-box {
+      position: relative;
+    }
+
+    .perfil-photo-frame {
+      background: var(--parchment);
+      border: 1px solid var(--sepia-line);
+      padding: 1.2rem;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--tan), 8px 8px 0 rgba(139,92,42,0.15);
+    }
+
+    .perfil-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #c9a97a33, #5c331022);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--sepia-line);
+      color: var(--brown-mid);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .perfil-photo-placeholder:hover { background: #c9a97a22; }
+    .perfil-photo-placeholder svg { opacity: 0.4; }
+
+    .photo-caption {
+      margin-top: 0.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      text-align: center;
+    }
+
+    /* ──────────── VISOR PDF + TRANSCRIPCIÓN ──────────── */
+    #visor { background: var(--parchment); padding: 5rem 2rem; max-width: 100%; }
+
+    #visor .inner { max-width: 1260px; margin: 0 auto; }
+
+    .visor-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .upload-btn-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+    label.upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--brown-dark);
+      color: var(--parchment);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 1px solid transparent;
+    }
+
+    label.upload-btn:hover { background: var(--brown-mid); }
+
+    #pdf-input { display: none; }
+
+    #pdf-filename {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: var(--brown-mid);
+      font-style: italic;
+    }
+
+    /* Panel contenedor sincronizado */
+    .sync-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--sepia-line);
+      box-shadow: 0 8px 40px var(--shadow);
+      background: #fff;
+      height: 680px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      background: var(--brown-dark);
+      color: var(--parchment);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .panel-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .panel-wrapper:first-child { border-right: 1px solid var(--sepia-line); }
+
+    .pdf-panel, .text-panel {
+      flex: 1;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      padding: 1.5rem;
+      scroll-behavior: auto;
+    }
+
+    /* PDF canvas */
+    #pdf-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #pdf-container canvas {
+      max-width: 100%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    .pdf-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 1rem;
+      color: var(--brown-mid);
+      opacity: 0.5;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    /* Texto transcripción */
+    .text-panel {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--brown-ink);
+      padding: 2rem 2.2rem;
+    }
+
+    .text-panel h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--brown-dark);
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--sepia-line);
+      padding-bottom: 0.6rem;
+    }
+
+    .text-panel p {
+      margin-bottom: 1.1rem;
+      text-align: justify;
+      text-indent: 1.5em;
+    }
+
+    .sync-indicator {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      color: var(--tan);
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sync-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--tan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .panel-loading {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(247,241,230,0.85);
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 0.1em;
+      color: var(--brown-mid);
+      z-index: 10;
+    }
+
+    /* ──────────── LÍNEA DE TIEMPO ──────────── */
+    #timeline { background: var(--cream); }
+
+    .timeline-placeholder {
+      border: 2px dashed var(--sepia-line);
+      background: rgba(201,169,122,0.07);
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--brown-mid);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: background 0.25s;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .timeline-placeholder:hover { background: rgba(201,169,122,0.14); }
+    .timeline-placeholder svg { opacity: 0.35; }
+
+    /* ──────────── PALABRAS CLAVE ──────────── */
+    #palabras { background: var(--parchment); padding: 5rem 2rem; max-width: 100%; }
+    #palabras .inner { max-width: 980px; margin: 0 auto; }
+
+    .keywords-placeholder {
+      border: 2px dashed var(--sepia-line);
+      background: rgba(201,169,122,0.07);
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: background 0.25s;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .keywords-placeholder:hover { background: rgba(201,169,122,0.14); }
+    .keywords-placeholder input { display: none; }
+    .keywords-placeholder svg { opacity: 0.35; color: var(--brown-mid); }
+    .keywords-placeholder span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: var(--brown-mid);
+    }
+
+    #keywords-img {
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border: 1px solid var(--sepia-line);
+      box-shadow: 0 4px 24px var(--shadow);
+    }
+
+    /* ──────────── EQUIPO ──────────── */
+    #equipo { background: var(--cream); }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .team-card {
+      background: var(--parchment);
+      border: 1px solid var(--sepia-line);
+      padding: 2.4rem 2rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--brown-mid), var(--tan));
+    }
+
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--tan), var(--brown-mid));
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--parchment);
+      font-style: italic;
+      border: 2px solid var(--sepia-line);
+    }
+
+    .team-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--brown-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .team-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      margin-bottom: 1rem;
+    }
+
+    .team-desc {
+      font-size: 0.9rem;
+      color: var(--brown-ink);
+      opacity: 0.8;
+      line-height: 1.7;
+    }
+
+    /* ──────────── FOOTER ──────────── */
+    footer {
+      background: var(--brown-dark);
+      color: var(--parchment);
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      opacity: 0.9;
+    }
+
+    footer span { color: var(--tan); }
+
+    /* ──────────── RESPONSIVE ──────────── */
+    @media (max-width: 820px) {
+      .sinopsis-grid, .perfil-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .sync-container { grid-template-columns: 1fr; height: auto; }
+      .panel-wrapper:first-child { height: 400px; border-right: none; border-bottom: 1px solid var(--sepia-line); }
+      .panel-wrapper:last-child { height: 360px; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#sinopsis">Sinopsis</a>
+    <a href="#perfil">El Hombre Fiera</a>
+    <a href="#visor">El Libro</a>
+    <a href="#timeline">Línea de Tiempo</a>
+    <a href="#palabras">Palabras Clave</a>
+    <a href="#equipo">Equipo</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-ornament">Humanidades Digitales · Colombia, 1926</div>
+    <h1>El Hombre Fiera</h1>
+    <div class="hero-subtitle">Memorias de Nicolás Jiménez</div>
+    <div class="hero-divider"></div>
+    <div class="hero-authors">
+      Integrante 1 · Integrante 2 · Integrante 3
+    </div>
+  </header>
+
+  <!-- SINOPSIS -->
+  <div id="sinopsis">
+    <div class="inner">
+      <div class="sinopsis-grid">
+        <div class="sinopsis-left">
+          <div class="section-label">Sobre la obra</div>
+          <h2 class="section-title">Sinopsis</h2>
+          <div class="ornament-line"></div>
+        </div>
+        <div>
+          <blockquote class="sinopsis-text">
+            El libro, titulado <em>"Memorias de Nicolás Jiménez (El hombre-fiera)"</em>, es un relato
+            autobiográfico dictado por el preso Eugenio López —conocido por su alias Nicolás Jiménez—
+            a su compañero de prisión Mario Santander en el Panóptico de Tunja en 1926.
+            <br /><br />
+            La obra busca contrastar la imagen de criminal sanguinario creada por la prensa de la época
+            con la versión personal del protagonista, quien se describe como un hombre transformado y,
+            en ocasiones, víctima de injusticias.
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <section id="perfil">
+    <div class="perfil-grid">
+      <div class="perfil-text">
+        <div class="section-label">Protagonista</div>
+        <h2 class="section-title">Nicolás Jiménez<br /><em>(El Hombre-Fiera)</em></h2>
+        <div class="ornament-line"></div>
+        <p>
+          Nicolás Jiménez, conocido como el "hombre-fiera", fue durante años símbolo de terror en Colombia.
+          Sin embargo, en su reclusión en el Panóptico de Tunja (1926), aparece como Eugenio López:
+          un hombre culto, religioso y en búsqueda de redención. Lejos de la imagen violenta, se muestra
+          sereno, dedicado a la lectura y al cuidado de un jardín que considera su salvación.
+        </p>
+        <p>
+          Su vida mezcla episodios de crimen, astucia y sufrimiento, marcada por huidas ingeniosas y
+          una infancia difícil. A través de sus memorias, intenta desmentir la imagen construida por la
+          prensa y demostrar que ha cambiado, apelando a la compasión y al perdón.
+        </p>
+      </div>
+      <div class="perfil-photo-box">
+        <div class="perfil-photo-frame">
+          <div class="perfil-photo-placeholder" onclick="document.getElementById('photo-upload').click()">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span style="font-size:0.75rem;letter-spacing:0.1em;color:var(--brown-mid)">Subir fotografía</span>
+            <input type="file" id="photo-upload" accept="image/*" onchange="loadProfilePhoto(event)" />
+          </div>
+          <p class="photo-caption">Eugenio López — 1926</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sepia-divider" />
+
+  <!-- VISOR PDF + TRANSCRIPCIÓN -->
+  <div id="visor">
+    <div class="inner">
+      <div class="visor-header">
+        <div>
+          <div class="section-label">Fuente primaria</div>
+          <h2 class="section-title">El Libro &amp; Transcripción</h2>
+          <div class="ornament-line" style="margin-bottom:0"></div>
+        </div>
+        <div class="upload-btn-area">
+          <div class="sync-indicator">
+            <div class="sync-dot"></div>
+            Desplazamiento sincronizado
+          </div>
+          <label class="upload-btn" for="pdf-input">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Cargar PDF
+          </label>
+          <input type="file" id="pdf-input" accept="application/pdf" />
+          <span id="pdf-filename">Ningún archivo seleccionado</span>
+        </div>
+      </div>
+
+      <div class="sync-container" id="sync-container">
+        <!-- Panel izquierdo: PDF -->
+        <div class="panel-wrapper">
+          <div class="panel-header">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Documento PDF
+          </div>
+          <div class="pdf-panel" id="pdf-panel">
+            <div id="pdf-container">
+              <div class="pdf-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <span>Carga el PDF para visualizarlo aquí</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel derecho: Transcripción -->
+        <div class="panel-wrapper">
+          <div class="panel-header">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/>
+              <line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>
+            </svg>
+            Transcripción
+          </div>
+          <div class="text-panel" id="text-panel">
+            <h3>Memorias de Nicolás Jiménez (El hombre-fiera)</h3>
+
+            <p>Tomadas en el Panóptico de Tunja por Mario Santander. Tunja, Junio de 1926.</p>
+
+            <p>Señor Director de la Penitenciaría E.S.D. Acompaño al presente memorial esos apuntes que con el título de "Memorias de Nicolás Jiménez" he hecho codificar por Mario Santander, para que Ud. se digne revisarlas y, si no tiene inconveniente o no encuentra en ellas algo que obste para su publicación, se sirva ponerles el pase juntamente con un certificado de mi conducta durante el tiempo que he permanecido en este Penal. Muy agradecido por la benévola acogida que se digne dar a mi solicitud. Soy de Ud. el último, pero el mas sumiso de sus subordinados. Señor Director. Eugenio López alias Nicolás Jiménez.</p>
+
+            <p>Junio de 1926. Examinamos los apuntes intitulados "Memorias de Nicolás Jiménez", individuo que cumple condena en este Penal, no se ha hallado ningún concepto violatorio del Reglamento, ofensivo o abiertamente opuesto a la verdad, aunque sí discrepan en muchos puntos de la narración contenida en el expediente de sentenciado. No ve, pues, el suscrito inconveniente en darles el pase reglamentario y autorizar su publicación como lo desea Jiménez.</p>
+
+            <p>Por el contrario, estima que la publicación de estos relatos, si es que ellos tienen un fondo de sinceridad y buena fé, puede servir para apreciar la lamentable situación a que llega un individuo que se deja arrastrar por sus innobles pasiones y, sin temor de Dios ni respeto a la Sociedad, dan rienda suelta a sus bajos instintos.</p>
+
+            <p>Quizás la consideración detenida de esta triste historia sirva de paro a muchas personas incautas o mal aconsejadas que, sin darse cuenta, van avanzando hacia el abismo a donde se precipitó el desventurado Nicolás. Respecto de la conducta observada por este penado durante su permanencia en esta Penitenciaría, se puede asegurar que ha sido generalmente buena. Roberto Gorry, Director de la Penitenciaría.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Introducción.</strong> La vida íntima de Nicolás Jiménez ha sido hasta hoy un enigma para el investigador, para el penalista y para el psicólogo, por el retraimiento en que se ha mantenido, siempre rehacio a la más leve confidencia.</p>
+
+            <p>Las publicaciones de "los misterios del Crimen" han roto ese obstinado silencio y con una sinceridad desconocida en su carácter huraño, se ha espontaneizado totalmente para esclarecer los hechos que errados en parte, figuran en los voluminosos informativos de los Juzgados.</p>
+
+            <p>Cuando leía hace seis años en la prensa los crímenes del "hombre-fiera" con todos los exagerados caracteres con que se narraban, sentía la natural repugnancia que inspira el protagonista de tantos y tan sangrientos dramas. Pero luego de tener la desgracia sin segunda de caer a la misma mansión del infortunio en que lentamente se consume la vida de Nicolás, me he propuesto estudiar en este hombre de constitución normal, sin alteraciones craneanas y nobles sentimientos, el raro carácter y causas desconocidas que lo indujeron a ser el criminal.</p>
+
+            <p>No encontré en Nicolás un temperamento repudiatorio y hosco, muy al contrario: amable y comunicativo, con cuanto está a su alcance y modelo de su conducta en toda la comunidad, motivos por los cuales es querido y considerado por los directores del Establecimiento y bien estimado por todos sus compañeros.</p>
+
+            <p>Cuando llegué a la penitenciaría lo primero que hice fue preguntar por el "hombre-fiera" pues había olvidado su nombre y un compañero me llevó al jardín donde Nicolás se ocupaba en regar una era de claveles; una conmoción hermosa recorrió todo mi cuerpo cuando estuve en su presencia y pensé en que tendría que pasar mucho tiempo en su temida compañía.</p>
+
+            <p>"Excúseme Ud. si no le doy la mano, respondió Jiménez, pero estoy mojado, cuánto lo siento que venga Ud. a sufrir en este infierno que llamamos cárcel. Pero es preciso tener valor y resignación."</p>
+
+            <p>"Lo primero que debe hacerse es reconciliarse con Dios y ofrecerle esta pena en su amor. Así hice yo y ya me ve Ud. vivo feliz en medio de mis flores; me encantan las flores, son tan bellas."</p>
+
+            <p>Sus modales son correctos, bien hablado, tiene claras nociones de historia y de Religión, Geografía y aritmética, sabe de memoria capítulos enteros del Quijote y recita muy regularmente sus cosas. Mario Santander.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Primera parte.</strong> Hace diez y seis años que estoy en la prisión. Solo quiero hacer una exposición fiel de las causas que han labrado mi desgracia, de los hechos que con falsas informaciones publicó la prensa de la Capital con los motivos mas dolosos y las mas falseadas hipérboles deseosas de hacerme en todos el concepto del mas desgraciado de los hombres.</p>
+
+            <p>Con la lectura de las Confesiones de San Agustín me he decidido a publicar estos apuntes. Yo soy Nicolás Jiménez y esto me sirve de algún consuelo de considerar que mi verdadero nombre no ha sido enlodado y escarnecido. Me llamo Eugenio López. Nací en Socos Boyacá.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Infancia.</strong> Pasé los primeros años en el bellísimo e incomparable Valle de Tensa en un punto denominado El Guamo de propiedad de mi padre, bajo el cielo azul y límpido que como aquél no he visto ni espero ver en parte alguna.</p>
+
+            <p>Aprendí en las rodillas de mi madre la Doctrina cristiana. En las rodillas de mi madre aprendí a leer y a escribir. Después con mis otros hermanos seguí adquiriendo los principios elementales de Geografía, Historia, Aritmética merced a la paciencia del Sr. Don José María Mora, primer maestro que tuve en la escuela rural.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Muerte de mi padre.</strong> En medio de las nubes azules de mi niñez, entre aquellos gozos no enturbiados por ninguna pena, vino la muerte a extender un paño de luto sobre mi hogar. Adiós sean muy buenos.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Primera prisión.</strong> Tendría yo diez y siete años cuando me invitó un amigo de nombre Fulgencio Mendoza, vecino de Garagoa, a que me viniese con él a Guateque costeándome los gastos del viaje si le ayudaba a llevar unos cuantos cerdos. En la plaza de Mercado acabábamos de vender el último, cuando se presentaron los verdaderos dueños de los malditos bichos acompañados del Alcalde y dos policiales. A la cárcel con mis huesos.</p>
+
+            <p><strong style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400">Primer amor.</strong> Del corazón jamás se borra la imagen de la que por vez primera le hizo latir emocionado por aquello tan tierno, tan ardiente y tan dolorosamente suave que llamamos: primer amor. Como unos catorce años revelaba Virginia cuando la conocí.</p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:1rem;font-family:'Cormorant Garamond',serif;font-size:0.82rem;color:var(--brown-mid);letter-spacing:0.08em;text-align:right;">
+        * Al subir un PDF, las páginas se renderizan a la izquierda. Al desplazarte en cualquier panel, el otro se mueve proporcionalmente.
+      </p>
+    </div>
+  </div>
+
+  <!-- LÍNEA DE TIEMPO -->
+  <section id="timeline">
+    <div class="section-label">Cronología</div>
+    <h2 class="section-title">Línea del Tiempo</h2>
+    <div class="ornament-line"></div>
+    <div class="timeline-placeholder" id="timeline-drop">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span style="font-size:1.1rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--brown-dark)">Espacio reservado para la Línea del Tiempo</span>
+      <span style="font-size:0.8rem;opacity:0.7">Pega aquí el código de tu línea de tiempo o inserta el componente externo</span>
+    </div>
+  </section>
+
+  <hr class="sepia-divider" />
+
+  <!-- PALABRAS CLAVE -->
+  <div id="palabras">
+    <div class="inner">
+      <div class="section-label">Análisis digital</div>
+      <h2 class="section-title">Palabras Clave</h2>
+      <div class="ornament-line"></div>
+
+      <div id="keywords-wrapper">
+        <label class="keywords-placeholder" for="keywords-img-input">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span style="font-size:1.1rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--brown-dark)">Carga aquí tu imagen de Voyant Tools</span>
+          <span style="font-size:0.8rem;color:var(--brown-mid);opacity:0.7">Haz clic para seleccionar la imagen con las palabras clave</span>
+          <input type="file" id="keywords-img-input" accept="image/*" onchange="loadKeywordsImage(event)" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO -->
+  <section id="equipo">
+    <div class="section-label">Investigadores</div>
+    <h2 class="section-title">El Equipo</h2>
+    <div class="ornament-line"></div>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">I</div>
+        <div class="team-name">Integrante 1</div>
+        <div class="team-role">Rol · Universidad</div>
+        <p class="team-desc">Descripción breve del integrante, su área de estudio o contribución al proyecto.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">I</div>
+        <div class="team-name">Integrante 2</div>
+        <div class="team-role">Rol · Universidad</div>
+        <p class="team-desc">Descripción breve del integrante, su área de estudio o contribución al proyecto.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">I</div>
+        <div class="team-name">Integrante 3</div>
+        <div class="team-role">Rol · Universidad</div>
+        <p class="team-desc">Descripción breve del integrante, su área de estudio o contribución al proyecto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>El Hombre Fiera</span> · Memorias de Nicolás Jiménez · Panóptico de Tunja, 1926 · Humanidades Digitales
+  </footer>
+
+  <!-- ──────────── SCRIPTS ──────────── -->
+  <script>
+    // PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    /* ── Carga PDF ── */
+    document.getElementById('pdf-input').addEventListener('change', async function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      document.getElementById('pdf-filename').textContent = file.name;
+
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+      const container = document.getElementById('pdf-container');
+      container.innerHTML = '';
+
+      const scale = 1.5;
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page   = await pdf.getPage(pageNum);
+        const viewport = page.getViewport({ scale });
+
+        const canvas  = document.createElement('canvas');
+        canvas.width  = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        // Número de página
+        const label = document.createElement('div');
+        label.style.cssText = `
+          font-family:'Cormorant Garamond',serif;font-size:0.72rem;
+          letter-spacing:0.15em;text-transform:uppercase;
+          color:var(--brown-mid);margin-top:0.3rem;text-align:center;`;
+        label.textContent = `Página ${pageNum}`;
+
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(canvas);
+        wrapper.appendChild(label);
+        container.appendChild(wrapper);
+      }
+    });
+
+    /* ── Scroll sincronizado ── */
+    const pdfPanel  = document.getElementById('pdf-panel');
+    const textPanel = document.getElementById('text-panel');
+    let isSyncingPdf  = false;
+    let isSyncingText = false;
+
+    function getScrollRatio(el) {
+      const max = el.scrollHeight - el.clientHeight;
+      return max > 0 ? el.scrollTop / max : 0;
+    }
+
+    function setScrollRatio(el, ratio) {
+      const max = el.scrollHeight - el.clientHeight;
+      el.scrollTop = ratio * max;
+    }
+
+    pdfPanel.addEventListener('scroll', () => {
+      if (isSyncingPdf) return;
+      isSyncingText = true;
+      setScrollRatio(textPanel, getScrollRatio(pdfPanel));
+      requestAnimationFrame(() => { isSyncingText = false; });
+    });
+
+    textPanel.addEventListener('scroll', () => {
+      if (isSyncingText) return;
+      isSyncingPdf = true;
+      setScrollRatio(pdfPanel, getScrollRatio(textPanel));
+      requestAnimationFrame(() => { isSyncingPdf = false; });
+    });
+
+    /* ── Cargar foto de perfil ── */
+    function loadProfilePhoto(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const placeholder = document.querySelector('.perfil-photo-placeholder');
+      placeholder.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;" />`;
+      placeholder.style.padding = '0';
+      placeholder.style.border = 'none';
+    }
+
+    /* ── Cargar imagen Voyant ── */
+    function loadKeywordsImage(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const wrapper = document.getElementById('keywords-wrapper');
+      wrapper.innerHTML = `
+        <img id="keywords-img" src="${url}" alt="Palabras clave – Voyant Tools" />
+        <p style="margin-top:0.8rem;font-family:'Cormorant Garamond',serif;font-size:0.8rem;
+           letter-spacing:0.12em;color:var(--brown-mid);text-align:right;cursor:pointer"
+           onclick="document.getElementById('keywords-img-input-2').click()">
+          ↑ Cambiar imagen
+          <input type="file" id="keywords-img-input-2" accept="image/*"
+                 style="display:none" onchange="loadKeywordsImage(event)" />
+        </p>`;
+    }
+  </script>
+
+</body>
+</html>
